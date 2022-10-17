@@ -1,0 +1,83 @@
+
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/ari727/Final_project/main/Chinese_exports_industry_2020.csv"},
+    "spacing": 0,
+    "hconcat": [
+      {
+      "width": 200,
+      "height": 200,
+      "mark": {"type": "arc",
+      "tooltip":true},
+      "transform": [
+        {
+          "calculate": "datum.Import/1000000000", "as": "Import_1b"
+        },
+  
+        {
+        "window": [{
+          "op": "sum",
+          "field": "Export",
+          "as": "TotalExport"
+      }],
+      "frame": [null, null]
+    },
+    {
+      "calculate": "datum.Export/datum.TotalExport * 100",
+      "as": "Proportion_of_Exports"
+    }
+      ],
+      "title": "  Percentage of Total Export(2020)",
+      "encoding": {
+        "color": {
+          "field": "Section",
+          "type": "nominal", 
+          "legend":{"title":"Industry","labelFontSize": 6}
+        },
+        "theta": {
+          "aggregate":"sum",
+          "field": "Proportion_of_Exports",
+          "type": "quantitative"
+         
+          }
+      }
+    },
+    
+     {
+      "transform": [
+        {
+          "calculate": "datum.Export/1000000000", "as": "Export_1b"
+        }
+      ],
+       "title": " Exports by Industry (2020)",
+      "width": 200,
+      "height": 200,
+      "mark": {"type": "bar",
+      "tooltip": true},
+      "encoding": {
+        "x": {
+          "field": "Section",
+          "type": "nominal",
+          "axis":{
+            "labelAngle": -45,
+            "labelFontSize": 6,
+            "title": null
+          }
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "Export_1b",
+          "type": "quantitative",
+          "scale":{"domain":[0,1400]},
+          "axis": {"tickCount": 8, "title":"Exports per $1 Billion USD"}
+          
+        },
+        "color":{
+          "field": "Section"
+        }
+      }
+      
+    }
+    
+    ]
+  }
