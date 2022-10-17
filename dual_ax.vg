@@ -1,0 +1,73 @@
+
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "description": "A dual axis chart, created by setting y's scale resolution to `\"independent\"`",
+    "title": "Chinese Yearly Exports (1960 - 2020)",
+    "data": {
+      "url": "https://raw.githubusercontent.com/ari727/Final_project/main/china%20exports.csv"
+    },
+    "transform": [
+        {
+          "calculate": "datum.China/1000000000", "as": "Exports per $1B"
+        }
+      
+      ],
+  "vconcat": [
+      {
+           "width": 450,
+    "encoding": {
+      "x": {"field": "Year",
+            "type": "temporal",
+            "scale": {"domain": {"param": "brush"}},
+            "axis": {"title": "", "tickCount": 10}
+      }
+    },
+    "layer": [
+        {
+            "mark": {"stroke": "#1100ff", "type": "line", "interpolate": "monotone"},
+            "encoding": {
+              "y": {
+                "field": "Exports per $1B",
+                "type": "quantitative",
+                "title": "Total Exports (Log)",
+                "axis": {"titleColor":"#1100ff"},
+                "scale": {"type": "log"}
+              }
+            }
+          },
+      {
+        "mark": {"opacity": 0.6, "type": "area", "color": "rgb(141, 51, 10)"},
+        "encoding": {
+          "y": {
+            
+            "field": "Change",
+            "type": "quantitative",
+            "title": "Yearly rate of change",
+            "axis": {"titleColor": "rgb(141, 51, 10)"}
+          }
+        }
+      }
+      
+    ],
+    "resolve": {"scale": {"y": "independent"}}
+      },
+      {
+        "width": 450,
+        "height": 60,
+        "mark": {"opacity": 1, "type": "line", "color": "#1100ff"},
+        "params": [
+          {"name": "brush", "select": {"type": "interval", "encodings": ["x"]}}
+        ],
+        "encoding": {
+          "x": {"field": "Year", "type": "temporal", "axis": {"tickCount": 10}},
+          "y": {
+            "field": "Exports per $1B",
+            "type": "quantitative",
+            "title": "Total Exports not adjusted",
+            "axis": {"tickCount": 3, "grid": true}
+          }
+        }
+      }
+  ]
+  }
+  
