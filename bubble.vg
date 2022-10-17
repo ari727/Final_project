@@ -1,0 +1,164 @@
+
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 400,
+    "height": 300,
+    "title": "Exports as a share of  GDP (2020) ",
+    "data": {
+      "url": "https://raw.githubusercontent.com/ari727/Final_project/main/export_percentage.csv"
+    },
+    "params": [
+
+      {
+        "name": "Continent_selection",
+        "bind": {
+          "input": "select",
+          "options": [
+            null,
+            "North America",
+            "South America",
+            "Europe",
+            "Africa",
+            "Asia",
+            "Oceania"
+          ],
+          "labels": [
+            "Show All",
+            "North America",
+            "South America",
+            "Europe",
+            "Africa",
+            "Asia",
+            "Oceania"
+          ],
+          "name": "Continent Selection: "
+        }
+      },
+      {
+        "name": "Percentage_Below",
+        "value": 250,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 250,
+          "step": 5,
+          "name": "Maximum Percentage: "
+        }
+      },
+      {
+        "name": "Percentage_Above",
+        "value": 0,
+        "bind": {
+          "input": "range",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "name": "Minimum Percentage "
+        }
+      }
+    
+    ],
+    "transform": [
+      {
+        "filter": "datum.Percentage > Percentage_Above"
+      },
+      {"filter": "datum.Percentage < Percentage_Below"},
+      {
+        "filter": "Continent_selection == null || datum.Continent == Continent_selection"
+      },
+      {
+        "calculate": "datum.Exports/1000000000", "as": "Exports_1b"
+      }
+    
+    ],
+    "encoding": {
+      "x": {
+        "field": "Population",
+        "type": "quantitative",
+        "title": "Population",
+        "axis": {"tickCount": 5},
+        "scale": { "type": "log", "domain": [1000, 2000000000]}
+      },
+      "y": {
+        "field": "Exports_1b",
+        "type": "quantitative",
+        "title": "Exports per $1 Billion USD",
+        "axis": {"tickCount": 6},
+        "scale": {"type": "log"}
+      }
+    },
+    "layer": [
+      {
+        "mark": "circle",
+        "encoding": {
+          "size": {
+            "field": "Percentage",
+            "type": "quantitative",
+            "scale": {
+              "type": "threshold",
+              "domain": [ 5, 25, 50, 75, 100], 
+              "range": [10, 50, 100, 200, 400, 800]
+            },
+            "legend": {"format": ".1s"}
+          },
+          "color": {
+            "field": "Continent",
+            "type": "nominal",
+            "scale": {
+              "domain": [
+                "Asia",
+                "North America",
+                "Africa",
+                "Europe",
+                "South America",
+                "Oceania"
+              ],
+              "range": [
+                "#e41a1c",
+                "#984ea3",
+                "#ff7f00",
+                "#a6cee3",
+                "#c3d103d3",
+                "#a65628"
+              ]
+            }
+          },
+          "opacity": {"value": 0.5},
+          "tooltip": [
+            {"field": "Country", "type": "nominal"},
+            {"field": "Exports", "type": "quantitative", "format": ","},
+            {"field": "Percentage", "type": "quantitative", "format": ","},
+            {"field": "Population", "type": "quantitative", "format": ","}
+          ]
+        }
+      },
+      {
+        "mark": {
+          "type": "text",
+          "align": "right",
+          "baseline": "middle",
+          "dx": -12,
+          "fontSize": 11.5,
+          "fontStyle": "italic"
+        },
+        "encoding": {
+          "text": {"field": "Country", "type": "nominal"},
+          "color": {"value": "black"},
+          "opacity": {
+            "condition": {
+              "test": "datum['Country'] == 'China'|| datum['Country'] == 'Luxembourg'|| datum['Country'] == 'Sudan'|| datum['Country'] == 'United States of America'|| datum['Country'] == 'Australia'",
+              "value": 1
+            },
+            "value": 0
+          },
+          "tooltip": [
+            {"field": "Country", "type": "nominal"},
+            {"field": "Exports", "type": "quantitative", "format": ","},
+            {"field": "Percentage", "type": "quantitative", "format": ","},
+            {"field": "Population", "type": "quantitative", "format": ","}
+            
+          ]
+        }
+      }
+    ]
+  }
