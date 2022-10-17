@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+  <title>Multiple Visualisations | An Example</title>
+  <!-- Import Vega & Vega-Lite (does not have to be from CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
+
+  <!-- Import pure.css -->
+  <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.3/build/pure-min.css"
+    integrity="sha384-cg6SkqEOCV1NbJoCu11+bm0NvBRc8IYLRGXkmNrqUBfTjmMYwNKPWBTIKyw9mHNJ" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+
+  <!-- CSS file -->
+  <link rel="stylesheet" type="text/css" href="styling.css" media="all">
+
+
+</head>
+
+<body>
+
+
+    <div class="page">
+
+      <h1 class="title-align"> World Exports </h1>
+
+        <h2> Chloropleth Map of world exports (2000 - 2020)</h2>
+      <p style="text-align: center;"> The Following Choropleth map identifies the total exports for the countries of the world 
+        from 2000 to 2020 per $1 Billion USD. The colour scale was adjusted to logarithms in order 
+        to eliminate large players such as China to better identify and compare the amount a country is exporting.
+      </p>
+
+      <div style="text-align: center;">
+        <div id="vis1" class="vis-container"></div>
+    </div>
+
+    <h2> Bubble Chart</h2>
+        <div class="pure-g">
+            <div class="pure-u-1-3">  
+                <p> This bubble chart helps us identify some interesting patterns. Notably Europe exporting
+                     slightly more relative to other regions when adjusting for population. Another pattern we 
+                     have distinguished is exports forms a larger proportion of GDP in European countries compared 
+                     to other regions. Such as Africa having lower exports and thus exports being only a smaller 
+                     percentage of GDP, we could hypothesise that countries which are more developed tend to export 
+                     more and therefore this forms a higher percent of GDP. Some countries are highlighted such as 
+                     Luxembourg for have the highest percentage of export and Sudan for having the lowest 
+                     percentage of GDP.
+                    </p>
+            </div>
+
+            <div class="pure-u-2-3">
+                <div id="vis2" class="vis-container" style="text-align: right"></div>
+            </div>
+        </div>
+    
+        <h2> Focus on Chinese Exports</h2>
+        <div class="pure-g">
+            <div class="pure-u-2-3">
+                <div id="vis4" class="vis-container"></div>
+            </div>
+
+            <div class="pure-u-1-3">  
+                <p> As we have identified in both Visualisation above China is the leading country for exports. 
+                    The plot to the left identifies Chinese Exports from 1960 to 2020, the total Exports has been
+                     log scaled in order to better visualize dips and changes year to year. We are able to 
+                     hypothesise that this large dips or increase would be around key events which would have 
+                     affected global markets changing the demand or supply of Chinese Exports.
+
+                    </p>
+            </div>
+        </div>
+
+        <div class="pure-g">
+
+            <div class="pure-u-1-3">  
+                <h3> Chinese Exports by Industry </h3>
+                <p style="font-size: 12;"> Now that we have identified the timeline of Chinese Exports we are able to look into the 
+                    industry or sectors which China Exports the most. As seen from both Bar and Pie Chart Machines
+                     from the large Majority of Chinese Exports at 47% and $1.25 Trillion USD, this is an 
+                     unrivalled amount and any changes in the machining industry which would affect demand or
+                      supply would have a major impact on the Chinese Exports industry and economy.
+
+                    </p>
+            </div>
+
+            <div class="pure-u-2-3">
+                <div id="vis3" class="vis-container" style="text-align: right;"></div>
+            </div>
+
+
+        </div>
+
+        <h4 style="text-align: left;"> This Visualisation was created by <a href="https://github.com/ari727" target="_blank">
+            Aristote Guinde</a>. All data can be found in the following 
+            <a href="https://github.com/ari727/Final_project" target="_blank"> respiratory</a> </h4>
+
+
+    </div>
+
+
+
+  
+  <script type="text/javascript">
+    var specVis1 = "Map_exports.vg.json";
+    var specVis2 = "bubble.vg";
+    var specVis3 = "side-side.vg";
+    var specVis4 = "dual_ax.vg";
+
+    vegaEmbed('#vis1', specVis1, { "actions": false });
+
+    vegaEmbed('#vis2', specVis2, { "actions": false });
+
+    vegaEmbed('#vis4', specVis4, { "actions": false });
+
+    vegaEmbed('#vis3', specVis3, { "actions": false }).then(function (result) {
+      // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+    }).catch(console.error);
+
+  </script>
+</body>
+
+</html>
